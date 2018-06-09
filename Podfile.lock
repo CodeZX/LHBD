@@ -1,0 +1,148 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - AvoidCrash (2.5.2)
+  - Bugly (2.5.0)
+  - DZNEmptyDataSet (1.8.1)
+  - JCore (1.1.9)
+  - JKCategories (1.7)
+  - JPush (3.0.9):
+    - JCore (~> 1.1.7)
+  - JSONModel (1.2.0)
+  - KVOController (1.2.0)
+  - LYLDataBase (1.0.5)
+  - Masonry (1.0.2)
+  - MBProgressHUD (0.9.2)
+  - MJRefresh (3.1.15.3)
+  - MyUUID (1.0.1)
+  - Reachability (3.2)
+  - SBJson (4.0.5)
+  - SDCycleScrollView (1.65):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - SSZipArchive (2.1.2)
+  - SVProgressHUD (2.1.2)
+  - UMengUShare/Core (6.4.8.2):
+    - UMengUShare/Network
+  - UMengUShare/Network (6.4.8.2)
+  - UMengUShare/Social/QQ (6.4.8.2):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedQQ
+  - UMengUShare/Social/ReducedQQ (6.4.8.2):
+    - UMengUShare/Core
+  - UMengUShare/Social/ReducedSina (6.4.8.2):
+    - UMengUShare/Core
+  - UMengUShare/Social/ReducedWeChat (6.4.8.2):
+    - UMengUShare/Core
+  - UMengUShare/Social/Sina (6.4.8.2):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedSina
+  - UMengUShare/Social/WeChat (6.4.8.2):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedWeChat
+  - UMengUShare/UI (6.4.8.2):
+    - UMengUShare/Core
+  - WMPageController (2.5.2)
+  - YYCache (1.0.4)
+  - ZFPlayer (2.1.6):
+    - Masonry
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
+  - AvoidCrash
+  - Bugly
+  - DZNEmptyDataSet
+  - JKCategories
+  - JPush
+  - JSONModel (~> 1.2.0)
+  - KVOController
+  - LYLDataBase
+  - Masonry (~> 1.0.1)
+  - MBProgressHUD (~> 0.9.2)
+  - MJRefresh
+  - MyUUID
+  - Reachability (~> 3.2)
+  - SBJson (~> 4.0.2)
+  - SDCycleScrollView
+  - SDWebImage (~> 3.7)
+  - SSZipArchive
+  - SVProgressHUD
+  - UMengUShare/Social/QQ
+  - UMengUShare/Social/Sina
+  - UMengUShare/Social/WeChat
+  - UMengUShare/UI
+  - WMPageController
+  - YYCache
+  - ZFPlayer
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+    - AvoidCrash
+    - Bugly
+    - DZNEmptyDataSet
+    - JCore
+    - JKCategories
+    - JPush
+    - JSONModel
+    - KVOController
+    - LYLDataBase
+    - Masonry
+    - MBProgressHUD
+    - MJRefresh
+    - MyUUID
+    - Reachability
+    - SBJson
+    - SDCycleScrollView
+    - SDWebImage
+    - SSZipArchive
+    - SVProgressHUD
+    - UMengUShare
+    - WMPageController
+    - YYCache
+    - ZFPlayer
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AvoidCrash: 28c6916fe19bd2b84126b8dec7cbe61c9a12741d
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  JCore: 27598485098d0db99d2812cba048003457d08cfb
+  JKCategories: 5136d903ed6a17e700cac984db9fc9dcfaad2954
+  JPush: 003d9eaef8ba2df76de32573d0c8aa62b92b3c82
+  JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
+  KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
+  LYLDataBase: 801adba25a32274a85a745db61796c879b329b28
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  MyUUID: 640928dcab11d78044d210834071eef71aaa6db7
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SBJson: af3137ccda22be3004487524da0a071c75d4251b
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SSZipArchive: d4009d2ce5520a421f231fd97028cc0e2667eed8
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  UMengUShare: 370d180101e13ee0227ae657ab119ba97243d2b3
+  WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
+
+PODFILE CHECKSUM: ae7d41b5670a774bb2f10a2b977d19c51deea3a4
+
+COCOAPODS: 1.5.0
