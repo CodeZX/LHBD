@@ -18,7 +18,7 @@ static NSString* const collectionViewHeaderIdentifier = @"header";
 static NSString *audioPath = @"QLCP";
 
 
-@interface GramophoneViewControllerTwo ()<UICollectionViewDelegate,UICollectionViewDataSource,AVAudioPlayerDelegate>
+@interface GramophoneViewControllerTwo ()<UICollectionViewDelegate,UICollectionViewDataSource,AVAudioPlayerDelegate,GramophoneViewControllerCellTwoDelegate>
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,weak) UICollectionView *collectionView;
 @property (nonatomic,weak) UIImageView *headImageView; ;
@@ -139,6 +139,8 @@ static NSString *audioPath = @"QLCP";
 }
 
 
+
+
 #pragma mark respond  means
 - (void)loadNewData {
     
@@ -191,6 +193,7 @@ static NSString *audioPath = @"QLCP";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     GramophoneViewControllerCellTwo *cell  = [collectionView dequeueReusableCellWithReuseIdentifier:collectionViewCellIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
     //    cell.contentView.backgroundColor = RandomColor;
 //    <#class#> *model =  self.searchDataSource ? self.searchDataSource[indexPath.row]:self.dataSource[indexPath.row];
 //    cell.specialistModel = model;\
@@ -263,6 +266,60 @@ static NSString *audioPath = @"QLCP";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"sotpPlayer" object:nil userInfo:nil];
 }
 
+
+#pragma mark -------------------------- gramophonViewControllerTwo delegate ----------------------------------------
+
+- (void)removeGramophoneViewControllerCellTwo:(GramophoneViewControllerCellTwo *)gramophoneViewControllerCellTwo {
+    
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"报告！" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+    
+        }];
+        UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            NSIndexPath  *indexPath = [self.collectionView indexPathForCell:gramophoneViewControllerCellTwo];
+            [self removeCellAtidexPath:indexPath];
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        }];
+        [alert addAction:action];
+        [alert addAction:actionCancel];
+        [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)removeCellAtidexPath:(NSIndexPath *)indexPath {
+    
+    AudioModel *audioModel = self.dataSource[indexPath.row];
+    [self deleteFileAtPath:audioModel.path];
+    [self.dataSource removeObjectAtIndex:indexPath.row];
+    [self synchronizeCache];
+    
+}
+
+/**
+ 同步到缓存
+ */
+- (void)synchronizeCache {
+    
+    AudioManager *audioManager = [AudioManager sharedAudioManager];
+    YYCache *audioCache = audioManager.audioCache;
+    [audioCache removeObjectForKey:KeyAudioAry];
+    [audioCache setObject:self.dataSource forKey:KeyAudioAry];
+}
+
+-(BOOL)deleteFileAtPath:(NSString *)path{
+   
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL res=[fileManager removeItemAtPath:path error:nil];
+    return res;
+    NSLog(@"文件是否存在: %@",[fileManager isExecutableFileAtPath:path]?@"YES":@"NO");
+}
+
+- (BOOL)deleteFileByName:(NSString *)name{
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    [fileManager removeItemAtPath:[self getLocalFilePath:fileName] error:nil];//getLocalFilePath方法在下面
+    NSString *path = @"";
+    return [self deleteFileAtPath:path];
+}
 #pragma mark -------------------------- Lazy load ----------------------------------------
 
 - (AVAudioPlayer *)player {

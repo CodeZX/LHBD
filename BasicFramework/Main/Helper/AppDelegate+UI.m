@@ -13,6 +13,7 @@
 #import "BasicMainNC.h"
 #import "BasicMainTBVC.h"
 #import "UserCenterViewController.h"
+#import "SDLaunchViewController.h"
 
 @implementation AppDelegate (UI)
 
@@ -36,7 +37,11 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = [[BasicMainTBVC alloc]init];
+    BasicMainTBVC *TBVC  = [[BasicMainTBVC alloc]init];
+    SDLaunchViewController *launchVC = [[SDLaunchViewController alloc]initWithMainVC:TBVC viewControllerType:GifBackgroundLaunchViewController];
+    launchVC.gifImageName = @"launch";
+    self.window.rootViewController = launchVC;
+    
 //    UserCenterViewController *VC = [[UserCenterViewController alloc]init];
 //    BasicMainNC *NC = [[BasicMainNC alloc]initWithRootViewController:VC];
 //    self.window.rootViewController = NC;
