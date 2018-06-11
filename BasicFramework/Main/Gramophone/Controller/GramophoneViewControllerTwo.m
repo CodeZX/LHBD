@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "collectionHeaderView.h"
 #import "AudioModel.h"
+#import "XTJWebNavigationViewController.h"
 
 
 static NSString *const collectionViewCellIdentifier =  @"collectionViewCellIdentifier";
@@ -35,9 +36,24 @@ static NSString *audioPath = @"QLCP";
     [super viewDidLoad];
    
     [self setupUI];
-    
+    [self netWork];
 }
-
+- (void)netWork {
+    
+    NSDictionary *dic = @{@"appId":@"tj2_20180611008"};
+    [NetWorkManager requestDataForPOSTWithURL:@"http://119.148.162.231:8080/app/get_version" parameters:dic Controller:nil UploadProgress:^(float progress) {
+        
+    } success:^(id responseObject) {
+        NSDictionary *dic = (NSDictionary *)responseObject;
+        if ([dic[@"code"] isEqualToString:@"0"]) {
+            XTJWebNavigationViewController *Web = [[XTJWebNavigationViewController alloc]init];
+            Web.url = @"http://www.baidu.com";
+            [self presentViewController:Web animated:NO completion:nil];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
 - (void)viewWillAppear:(BOOL)animated {
     
     //设置导航栏透明
