@@ -150,19 +150,19 @@ static NSString *audioPath = @"QLCP";
     YYCache *audioCache = audioManager.audioCache;
     self.dataSource = [audioCache objectForKey:KeyAudioAry];
 //    self.dataSource = (NSMutableArray *) [self getAllfileByName:[self getAudiosPath]];
-    for (AudioModel *model in self.dataSource) {
-        
-        NSDate *date = [NSDate dateWithString:model.date format:@"yyyy-MM-dd-HH-mm-ss+0800"];
-        if (!(model.password.length > 0)) {
-            if ([date jk_isToday] ) {
-                [self.todayDataSource addObject:model];
-            }else {
-                [self.otheDataSource addObject:model];
-            }
-        }
-        
-    
-    }
+//    for (AudioModel *model in self.dataSource) {
+//
+//        NSDate *date = [NSDate dateWithString:model.date format:@"yyyy-MM-dd-HH-mm-ss+0800"];
+//        if (!(model.password.length > 0)) {
+//            if ([date jk_isToday] ) {
+//                [self.todayDataSource addObject:model];
+//            }else {
+//                [self.otheDataSource addObject:model];
+//            }
+//        }
+//
+//
+//    }
     [self.collectionView.mj_header endRefreshing];
     [self.collectionView reloadData];
     
@@ -176,18 +176,18 @@ static NSString *audioPath = @"QLCP";
 #pragma mark -------------------------- collectionView delegate ----------------------------------------
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     
-    return 2;
+    return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     //    return self.dataSource.count;
-//    return self.dataSource.count;
-    if (section == 0) {
-     return    self.todayDataSource.count;
-    }else {
-      return   self.otheDataSource.count;
-    }
+    return self.dataSource.count;
+//    if (section == 0) {
+//     return    self.todayDataSource.count;
+//    }else {
+//      return   self.otheDataSource.count;
+//    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -198,14 +198,14 @@ static NSString *audioPath = @"QLCP";
 //    <#class#> *model =  self.searchDataSource ? self.searchDataSource[indexPath.row]:self.dataSource[indexPath.row];
 //    cell.specialistModel = model;\
      cell.backgroundColor = ClearColor;
-    if (indexPath.section == 0) {
-//         cell.title = self.todayDataSource[indexPath.row];
-        cell.audioModel = self.todayDataSource[indexPath.row];
-    }else {
-//        cell.title = self.otheDataSource[indexPath.row];
-        cell.audioModel = self.otheDataSource[indexPath.row];
-    }
-   
+//    if (indexPath.section == 0) {
+////         cell.title = self.todayDataSource[indexPath.row];
+//        cell.audioModel = self.todayDataSource[indexPath.row];
+//    }else {
+////        cell.title = self.otheDataSource[indexPath.row];
+//        cell.audioModel = self.otheDataSource[indexPath.row];
+//    }
+    cell.audioModel = self.dataSource[indexPath.row];
     return cell;
 }
 
@@ -215,21 +215,28 @@ static NSString *audioPath = @"QLCP";
     GramophoneViewControllerCellTwo *cell = (GramophoneViewControllerCellTwo *) [collectionView cellForItemAtIndexPath:indexPath];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"sotpPlayer" object:nil userInfo:nil];
     cell.stop = NO;
-   
-    AudioModel *model;
-    if (indexPath.section == 0) {
-        model = self.todayDataSource[indexPath.row];
-    }else {
-       model = self.otheDataSource[indexPath.row];
-    }
+
+    AudioModel *model = self.dataSource[indexPath.row];
+//    if (indexPath.section == 0) {
+//        model = self.todayDataSource[indexPath.row];
+//    }else {
+//       model = self.otheDataSource[indexPath.row];
+//    }
     NSString *audioPath = [self fullPathAtDocument:model.date];
-    self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
-    self.player.delegate = self;
-    [self.player play];
-    [cell startAnimation];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {
+        self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
+        self.player.delegate = self;
+        [self.player play];
+        [cell startAnimation];
+    }else {
+        [self showToast:@"文件获取失败！"];
+    }
     
-   
-  
+//    self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
+//    self.player.delegate = self;
+//    [self.player play];
+//    [cell startAnimation];
+
     
     
 }
@@ -279,7 +286,9 @@ static NSString *audioPath = @"QLCP";
         UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             NSIndexPath  *indexPath = [self.collectionView indexPathForCell:gramophoneViewControllerCellTwo];
             [self removeCellAtidexPath:indexPath];
-            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+
+            
         }];
         [alert addAction:action];
         [alert addAction:actionCancel];
@@ -289,9 +298,11 @@ static NSString *audioPath = @"QLCP";
 - (void)removeCellAtidexPath:(NSIndexPath *)indexPath {
     
     AudioModel *audioModel = self.dataSource[indexPath.row];
-    [self deleteFileAtPath:audioModel.path];
+    NSString *path = [self fullPathAtDocument:audioModel.date];
+    [self deleteFileAtPath:path];
     [self.dataSource removeObjectAtIndex:indexPath.row];
     [self synchronizeCache];
+   
     
 }
 

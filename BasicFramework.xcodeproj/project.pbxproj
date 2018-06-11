@@ -254,6 +254,7 @@
 		3C589E6720CA742400171BD5 /* icon_delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C589E6420CA742400171BD5 /* icon_delete@3x.png */; };
 		3C589E6820CA742400171BD5 /* icon_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C589E6520CA742400171BD5 /* icon_delete@2x.png */; };
 		3C589E6920CA742400171BD5 /* icon_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C589E6620CA742400171BD5 /* icon_delete.png */; };
+		3CC16B1E20CE14E4006B30BC /* launch.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3CC16B1D20CE14E4006B30BC /* launch.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -686,6 +687,7 @@
 		3C589E6420CA742400171BD5 /* icon_delete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_delete@3x.png"; sourceTree = "<group>"; };
 		3C589E6520CA742400171BD5 /* icon_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_delete@2x.png"; sourceTree = "<group>"; };
 		3C589E6620CA742400171BD5 /* icon_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_delete.png; sourceTree = "<group>"; };
+		3CC16B1D20CE14E4006B30BC /* launch.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = launch.gif; sourceTree = "<group>"; };
 		46AA6AC588A0F83490E72E29 /* libPods-BasicFramework.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BasicFramework.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2404136FF63979E9EA81231 /* Pods-BasicFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BasicFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-BasicFramework/Pods-BasicFramework.release.xcconfig"; sourceTree = "<group>"; };
 		BDD62ADF7C767CC104287091 /* Pods-BasicFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BasicFramework.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BasicFramework/Pods-BasicFramework.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1173,6 +1175,7 @@
 			children = (
 				3679AA131DD99BA000169DFF /* IMG.bundle */,
 				36111ADB1D6EE63200A03BF4 /* Assets.xcassets */,
+				3CC16B1D20CE14E4006B30BC /* launch.gif */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -2141,6 +2144,7 @@
 				18321F2420BE50800067BE66 /* icon_person set@3x.png in Resources */,
 				18321F3120BE50800067BE66 /* icon_clean@3x.png in Resources */,
 				18321F2220BE507F0067BE66 /* icon_boy.png in Resources */,
+				3CC16B1E20CE14E4006B30BC /* launch.gif in Resources */,
 				36111AE31D6EE63700A03BF4 /* LaunchScreen.storyboard in Resources */,
 				18321F9920C4E4DC0067BE66 /* icon_styli@3x.png in Resources */,
 				18321FA320C4E4DC0067BE66 /* bg1@2x.png in Resources */,

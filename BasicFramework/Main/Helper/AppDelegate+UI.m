@@ -39,7 +39,12 @@
     self.window.backgroundColor = [UIColor whiteColor];
     BasicMainTBVC *TBVC  = [[BasicMainTBVC alloc]init];
     SDLaunchViewController *launchVC = [[SDLaunchViewController alloc]initWithMainVC:TBVC viewControllerType:GifBackgroundLaunchViewController];
+//    launchVC.hideEndButton = YES;
+//    [launchVC.endButton setTitleColor:RedColor forState:UIControlStateNormal];
+//    launchVC.endButton.backgroundColor  = RedColor;
     launchVC.gifImageName = @"launch";
+//
+   
     self.window.rootViewController = launchVC;
     
 //    UserCenterViewController *VC = [[UserCenterViewController alloc]init];

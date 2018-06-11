@@ -60,7 +60,7 @@ static NSString *audioPath = @"QLCP";
 - (void)setupUI  {
     
     self.view.backgroundColor = WhiteColor;
-    self.navigationItem.title = @"密语";
+    self.navigationItem.title = @"留声机";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self  action:@selector(rightSearch:)];
     
@@ -140,6 +140,8 @@ static NSString *audioPath = @"QLCP";
 }
 
 
+
+
 #pragma mark respond  means
 - (void)loadNewData {
     
@@ -147,21 +149,21 @@ static NSString *audioPath = @"QLCP";
     [self.otheDataSource removeAllObjects];
     AudioManager *audioManager = [AudioManager sharedAudioManager];
     YYCache *audioCache = audioManager.audioCache;
-    self.dataSource = [audioCache objectForKey:KeyAudioAry];
+    self.dataSource = [audioCache objectForKey:KeyPassWordAudioAry];
     //    self.dataSource = (NSMutableArray *) [self getAllfileByName:[self getAudiosPath]];
-    for (AudioModel *model in self.dataSource) {
-        
-        NSDate *date = [NSDate dateWithString:model.date format:@"yyyy-MM-dd-HH-mm-ss+0800"];
-        if (model.password.length > 0) {
-            if ([date jk_isToday]) {
-                [self.todayDataSource addObject:model];
-            }else {
-                [self.otheDataSource addObject:model];
-            }
-        }
-       
-        
-    }
+    //    for (AudioModel *model in self.dataSource) {
+    //
+    //        NSDate *date = [NSDate dateWithString:model.date format:@"yyyy-MM-dd-HH-mm-ss+0800"];
+    //        if (!(model.password.length > 0)) {
+    //            if ([date jk_isToday] ) {
+    //                [self.todayDataSource addObject:model];
+    //            }else {
+    //                [self.otheDataSource addObject:model];
+    //            }
+    //        }
+    //
+    //
+    //    }
     [self.collectionView.mj_header endRefreshing];
     [self.collectionView reloadData];
     
@@ -175,35 +177,36 @@ static NSString *audioPath = @"QLCP";
 #pragma mark -------------------------- collectionView delegate ----------------------------------------
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     
-    return 2;
+    return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     //    return self.dataSource.count;
-    //    return self.dataSource.count;
-    if (section == 0) {
-        return    self.todayDataSource.count;
-    }else {
-        return   self.otheDataSource.count;
-    }
+    return self.dataSource.count;
+    //    if (section == 0) {
+    //     return    self.todayDataSource.count;
+    //    }else {
+    //      return   self.otheDataSource.count;
+    //    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     GramophoneViewControllerCellTwo *cell  = [collectionView dequeueReusableCellWithReuseIdentifier:collectionViewCellIdentifier forIndexPath:indexPath];
+    cell.delegate = self;
     //    cell.contentView.backgroundColor = RandomColor;
     //    <#class#> *model =  self.searchDataSource ? self.searchDataSource[indexPath.row]:self.dataSource[indexPath.row];
     //    cell.specialistModel = model;\
     cell.backgroundColor = ClearColor;
-    if (indexPath.section == 0) {
-        //         cell.title = self.todayDataSource[indexPath.row];
-        cell.audioModel = self.todayDataSource[indexPath.row];
-    }else {
-        //        cell.title = self.otheDataSource[indexPath.row];
-        cell.audioModel = self.otheDataSource[indexPath.row];
-    }
-    
+    //    if (indexPath.section == 0) {
+    ////         cell.title = self.todayDataSource[indexPath.row];
+    //        cell.audioModel = self.todayDataSource[indexPath.row];
+    //    }else {
+    ////        cell.title = self.otheDataSource[indexPath.row];
+    //        cell.audioModel = self.otheDataSource[indexPath.row];
+    //    }
+    cell.audioModel = self.dataSource[indexPath.row];
     return cell;
 }
 
@@ -214,29 +217,43 @@ static NSString *audioPath = @"QLCP";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"sotpPlayer" object:nil userInfo:nil];
     cell.stop = NO;
     
-    AudioModel *model;
-    if (indexPath.section == 0) {
-        model = self.todayDataSource[indexPath.row];
-    }else {
-        model = self.otheDataSource[indexPath.row];
-    }
-    if (model.password > 0) {
-        
-    }
-    [self verifyPassword:model.password completeRespond:^(BOOL result) {
-        if (result) {
+    AudioModel *model = self.dataSource[indexPath.row];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入密码" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([model.password isEqualToString:self.passwordTextField.text]) {
+           
             NSString *audioPath = [self fullPathAtDocument:model.date];
-            self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
-            self.player.delegate = self;
-            [self.player play];
-            [cell startAnimation];
-        }else {
-            [self showToast:@"密码错误，请重试！"];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {
+                self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
+                self.player.delegate = self;
+                [self.player play];
+                [cell startAnimation];
+            }else {
+                [self showToast:@"文件获取失败！"];
+            }
         }
+        
     }];
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        self.passwordTextField = textField;
+    }];
+    [alert addAction:actionCancel];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+    //    if (indexPath.section == 0) {
+    //        model = self.todayDataSource[indexPath.row];
+    //    }else {
+    //       model = self.otheDataSource[indexPath.row];
+    //    }
    
     
-    
+    //    self.player = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL URLWithString:audioPath] error:nil];
+    //    self.player.delegate = self;
+    //    [self.player play];
+    //    [cell startAnimation];
     
     
     
@@ -265,23 +282,8 @@ static NSString *audioPath = @"QLCP";
     return CGSizeMake(320, 40);
 }
 
-- (void)verifyPassword:(NSString *)audioPasswork completeRespond:(void (^)(BOOL result))completeRespond  {
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入密码" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if ([audioPasswork isEqualToString:self.passwordTextField.text]) {
-            completeRespond(YES);
-        }else {
-            completeRespond(NO);
-        }
-    }];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"密码";
-        self.passwordTextField = textField;
-    }];
-    [alert addAction:confirmAction];
-    [self presentViewController:alert animated:YES completion:^{}];
-}
+
+
 #pragma mark -------------------------- audioPlayer delegate ----------------------------------------
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
@@ -289,6 +291,64 @@ static NSString *audioPath = @"QLCP";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"sotpPlayer" object:nil userInfo:nil];
 }
 
+
+#pragma mark -------------------------- gramophonViewControllerTwo delegate ----------------------------------------
+
+- (void)removeGramophoneViewControllerCellTwo:(GramophoneViewControllerCellTwo *)gramophoneViewControllerCellTwo {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"报告！" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+    }];
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSIndexPath  *indexPath = [self.collectionView indexPathForCell:gramophoneViewControllerCellTwo];
+        [self removeCellAtidexPath:indexPath];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        
+        
+    }];
+    [alert addAction:action];
+    [alert addAction:actionCancel];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)removeCellAtidexPath:(NSIndexPath *)indexPath {
+    
+    AudioModel *audioModel = self.dataSource[indexPath.row];
+    NSString *path = [self fullPathAtDocument:audioModel.date];
+    [self deleteFileAtPath:path];
+    [self.dataSource removeObjectAtIndex:indexPath.row];
+    [self synchronizeCache];
+    
+    
+}
+
+/**
+ 同步到缓存
+ */
+- (void)synchronizeCache {
+    
+    AudioManager *audioManager = [AudioManager sharedAudioManager];
+    YYCache *audioCache = audioManager.audioCache;
+    [audioCache removeObjectForKey:KeyPassWordAudioAry];
+    [audioCache setObject:self.dataSource forKey:KeyPassWordAudioAry];
+}
+
+-(BOOL)deleteFileAtPath:(NSString *)path{
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL res=[fileManager removeItemAtPath:path error:nil];
+    return res;
+    NSLog(@"文件是否存在: %@",[fileManager isExecutableFileAtPath:path]?@"YES":@"NO");
+}
+
+- (BOOL)deleteFileByName:(NSString *)name{
+    //    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //    [fileManager removeItemAtPath:[self getLocalFilePath:fileName] error:nil];//getLocalFilePath方法在下面
+    NSString *path = @"";
+    return [self deleteFileAtPath:path];
+}
 #pragma mark -------------------------- Lazy load ----------------------------------------
 
 - (AVAudioPlayer *)player {
@@ -314,5 +374,6 @@ static NSString *audioPath = @"QLCP";
     }
     return _otheDataSource;
 }
+
 
 @end

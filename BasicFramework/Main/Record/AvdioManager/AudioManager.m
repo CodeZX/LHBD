@@ -9,7 +9,7 @@
 #import "AudioManager.h"
 
 NSString * const KeyAudioAry = @"audioAry";
-
+NSString * const KeyPassWordAudioAry = @"passWordAudioAry";
 
 
 

@@ -398,32 +398,63 @@ typedef NS_ENUM(NSUInteger, AudioState) {
     if (title.length == 0) {
         title = @"未命名";
     }
-    // 保存元数据
-    BOOL result = NO;
-    NSError * error = nil;
-    NSString *toPath = [self fullPathAtDocument:self.audioName];
-    NSString *path = [self fullPathAtCache:self.audioName];
-    result = [[NSFileManager defaultManager]copyItemAtPath:path toPath:toPath error:&error ];
-    if (!error){
-        // 保存元数据信息到数据库
-        AudioModel *audioModel = [[AudioModel alloc]initWithTitle:title Path:toPath Date:self.audioName Password:password];
-        AudioManager *audioManager = [AudioManager sharedAudioManager];
-        YYCache *audioCache = audioManager.audioCache;
-        if ([audioCache containsObjectForKey:KeyAudioAry]) {
-            NSArray *audioAry = [audioCache objectForKey:KeyAudioAry];
-            NSMutableArray *muAry = [NSMutableArray arrayWithArray:audioAry];
-            [muAry insertObject:audioModel atIndex:0];
-//            [muAry addObject:audioModel];
-            [audioCache setObject:muAry forKey:KeyAudioAry];
+    if (password.length == 0) {
+        // 保存元数据
+        BOOL result = NO;
+        NSError * error = nil;
+        NSString *toPath = [self fullPathAtDocument:self.audioName];
+        NSString *path = [self fullPathAtCache:self.audioName];
+        result = [[NSFileManager defaultManager]copyItemAtPath:path toPath:toPath error:&error ];
+        if (!error){
+            // 保存元数据信息到数据库
+            AudioModel *audioModel = [[AudioModel alloc]initWithTitle:title Path:nil Date:self.audioName Password:password];
+            AudioManager *audioManager = [AudioManager sharedAudioManager];
+            YYCache *audioCache = audioManager.audioCache;
+            if ([audioCache containsObjectForKey:KeyAudioAry]) {
+                NSArray *audioAry = [audioCache objectForKey:KeyAudioAry];
+                NSMutableArray *muAry = [NSMutableArray arrayWithArray:audioAry];
+                [muAry insertObject:audioModel atIndex:0];
+                //            [muAry addObject:audioModel];
+                [audioCache setObject:muAry forKey:KeyAudioAry];
+            }else {
+                [audioCache setObject:@[audioModel] forKey:KeyAudioAry];
+            }
+            [self showToast:@"保存成功"];
+            
         }else {
-            [audioCache setObject:@[audioModel] forKey:KeyAudioAry];
+            DEBUG_LOG(@"copy失败：%@",[error localizedDescription]);
         }
-        [self showToast:@"保存成功"];
-    
-    }else {
-        DEBUG_LOG(@"copy失败：%@",[error localizedDescription]);
-    }
 
+    }else {
+        // 保存元数据
+        BOOL result = NO;
+        NSError * error = nil;
+        NSString *toPath = [self fullPathAtDocument:self.audioName];
+        NSString *path = [self fullPathAtCache:self.audioName];
+        result = [[NSFileManager defaultManager]copyItemAtPath:path toPath:toPath error:&error ];
+        if (!error){
+            // 保存元数据信息到数据库
+            AudioModel *audioModel = [[AudioModel alloc]initWithTitle:title Path:nil Date:self.audioName Password:password];
+            AudioManager *audioManager = [AudioManager sharedAudioManager];
+            YYCache *audioCache = audioManager.audioCache;
+            if ([audioCache containsObjectForKey:KeyPassWordAudioAry]) {
+                NSArray *audioAry = [audioCache objectForKey:KeyPassWordAudioAry];
+                NSMutableArray *muAry = [NSMutableArray arrayWithArray:audioAry];
+                [muAry insertObject:audioModel atIndex:0];
+                //            [muAry addObject:audioModel];
+                [audioCache setObject:muAry forKey:KeyPassWordAudioAry];
+            }else {
+                [audioCache setObject:@[audioModel] forKey:KeyPassWordAudioAry];
+            }
+            [self showToast:@"保存成功"];
+            
+        }else {
+            DEBUG_LOG(@"copy失败：%@",[error localizedDescription]);
+        }
+
+        
+    }
+   
 
 }
 
@@ -456,6 +487,8 @@ typedef NS_ENUM(NSUInteger, AudioState) {
     }
     return [directoryPath stringByAppendingPathComponent:fileName];
 }
+
+
 
 
 @end

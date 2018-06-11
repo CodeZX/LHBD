@@ -10,6 +10,7 @@
 
 
 extern NSString * const KeyAudioAry;
+extern NSString * const KeyPassWordAudioAry;
 
 @interface AudioManager : NSObject
 @property (nonatomic,strong) YYCache *audioCache;

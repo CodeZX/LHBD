@@ -160,7 +160,9 @@
 
 - (void)deleteBtnClicked:(UIButton *)Btn {
     
-    
+    if ([self.delegate respondsToSelector:@selector(removeGramophoneViewControllerCellTwo:)]) {
+        [self.delegate removeGramophoneViewControllerCellTwo:self];
+    }
     
 }
 
@@ -199,12 +201,15 @@
 
 - (void)setAudioModel:(AudioModel *)audioModel {
     _audioModel = audioModel;
+    self.deleteBtn.hidden = YES;
+    self.lockImageView.hidden = YES;
+    
     self.titleLabel.text = audioModel.title;
     NSDate *date = [NSDate jk_dateWithString:audioModel.date format:@"yyyy-MM-dd-HH-mm-ss+0800"];
     long int day = [date jk_day];
     long int month = [date jk_month];
     self.datalabel.text = [NSString stringWithFormat:@"%ld月%ld日",month,day];
-    if (audioModel.password.length > 0) {
+    if (audioModel.password.length != 0) {
         self.lockImageView.hidden = NO;
     }
 }
