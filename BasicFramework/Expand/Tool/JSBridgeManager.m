@@ -29,7 +29,7 @@ static WKWebViewJavascriptBridge* _bridge;
 }
 +(void)registerHandler:(NSString *)handler bridgeHandler:(JSBridgeHandler)bridgeHandler
 {
-    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！") return; }
+    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！"); return; }
     [_bridge registerHandler:handler handler:^(id data, WVJBResponseCallback responseCallback){
         
         bridgeHandler(data,responseCallback);
@@ -38,7 +38,7 @@ static WKWebViewJavascriptBridge* _bridge;
 }
 +(void)callHandler:(NSString *)handler data:(id)data responseCallback:(JSBridgeCallback)responseCallback
 {
-    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！") return; }
+    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！"); return; }
     [_bridge callHandler:handler data:data responseCallback:^(id responseData) {
         
         responseCallback(responseData);
@@ -47,12 +47,12 @@ static WKWebViewJavascriptBridge* _bridge;
 }
 +(void)callHandler:(NSString *)handler data:(id)data
 {
-    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！") return; }
+    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！"); return; }
     [_bridge callHandler:handler data:data];
 }
 +(void)callHandler:(NSString *)handler
 {
-    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！") return; }
+    if (!_bridge) { NSLog(@"未创建WKWebViewJavascriptBridge！"); return; }
     [_bridge callHandler:handler];
 }
 

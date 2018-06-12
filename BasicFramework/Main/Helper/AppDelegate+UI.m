@@ -44,7 +44,7 @@
 //    launchVC.endButton.backgroundColor  = RedColor;
     launchVC.gifImageName = @"launch";
 //
-   
+
     self.window.rootViewController = launchVC;
     
 //    UserCenterViewController *VC = [[UserCenterViewController alloc]init];

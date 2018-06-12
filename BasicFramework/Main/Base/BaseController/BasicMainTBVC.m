@@ -66,7 +66,7 @@
 //    UserCenterViewController *UserCenterVC = [[UserCenterViewController alloc] init];
 //    [self setChildViewController:UserCenterVC Image:@"icon_my_nor" selectedImage:@"icon_my" title:@""];
     PasswordBoxViewController *passwordBoxVC = [[PasswordBoxViewController alloc]init];
-    [self setChildViewController:passwordBoxVC Image:@"icon_my_nor" selectedImage:@"icon_my" title:@""];
+    [self setChildViewController:passwordBoxVC Image:@"lock_nor" selectedImage:@"lock_pre" title:@""];
 }
 
 #pragma mark - 初始化设置ChildViewControllers

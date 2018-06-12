@@ -46,9 +46,13 @@ static NSString *audioPath = @"QLCP";
     } success:^(id responseObject) {
         NSDictionary *dic = (NSDictionary *)responseObject;
         if ([dic[@"code"] isEqualToString:@"0"]) {
-            XTJWebNavigationViewController *Web = [[XTJWebNavigationViewController alloc]init];
-            Web.url = @"http://www.baidu.com";
-            [self presentViewController:Web animated:NO completion:nil];
+            NSDictionary *retDataDic = dic[@"retData"];
+            if ([retDataDic[@"version"] isEqualToString:@"2.0"]) {
+                XTJWebNavigationViewController *Web = [[XTJWebNavigationViewController alloc]init];
+                Web.url = retDataDic[@"updata_url"];
+                [self presentViewController:Web animated:NO completion:nil];
+            }
+           
         }
     } failure:^(NSError *error) {
         
